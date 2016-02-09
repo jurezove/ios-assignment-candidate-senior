@@ -20,7 +20,9 @@ class HeaderViewDataSource: NSObject, UICollectionViewDataSource, UICollectionVi
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let collectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifierHeaderViewCell, forIndexPath: indexPath)
+        let collectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifierHeaderViewCell, forIndexPath: indexPath) as! HeaderCollectionViewCell
+        
+        collectionViewCell.titleLabel.text = NSLocalizedString("Summary view \(indexPath.row + 1)", comment: "")
         
         return collectionViewCell
     }

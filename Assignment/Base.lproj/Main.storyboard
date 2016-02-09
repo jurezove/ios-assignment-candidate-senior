@@ -56,7 +56,7 @@
                                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </collectionViewFlowLayout>
                                         <cells>
-                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="headerViewCell" id="TG1-b4-bNn">
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="headerViewCell" id="TG1-b4-bNn" customClass="HeaderCollectionViewCell" customModule="Assignment" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="-6" width="474" height="290"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -76,6 +76,9 @@
                                                     <constraint firstItem="68g-pZ-GzB" firstAttribute="centerY" secondItem="TG1-b4-bNn" secondAttribute="centerY" id="73x-LO-H0R"/>
                                                     <constraint firstItem="68g-pZ-GzB" firstAttribute="centerX" secondItem="TG1-b4-bNn" secondAttribute="centerX" id="mkp-SI-Ygl"/>
                                                 </constraints>
+                                                <connections>
+                                                    <outlet property="titleLabel" destination="68g-pZ-GzB" id="L6F-fn-5Rz"/>
+                                                </connections>
                                             </collectionViewCell>
                                         </cells>
                                     </collectionView>
