@@ -9,7 +9,7 @@
 import UIKit
 
 class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UITableViewDelegate {
-    let tableViewContext = UnsafeMutablePointer<()>()
+    let tableViewObserverContext = UnsafeMutablePointer<()>()
     
     // MARK: IB Outlets
     @IBOutlet weak var headerCollectionView: UICollectionView!
@@ -54,13 +54,25 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UITa
     }
     
     deinit {
-        tableView.removeObserver(self, forKeyPath: "contentOffset", context: tableViewContext)
+        tableView.removeObserver(self, forKeyPath: "contentOffset", context: tableViewObserverContext)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         _headerHeight = view.bounds.size.height/CGFloat(2.0) // Max header height is half the screen
+    }
+    
+    // Animate collection view page position when rotating
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        let currentPageIndexPath = headerCollectionView.indexPathsForVisibleItems().first
+        
+        if let indexPath = currentPageIndexPath {
+            coordinator.animateAlongsideTransition({ (coordinatorContext) -> Void in
+                self.headerCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Left, animated: false)
+                },
+                completion: nil)
+        }
     }
     
     private func updateInitialViewDimensions() {
@@ -83,7 +95,7 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UITa
             layout.minimumLineSpacing = 0.0
         }
         
-        self.tableView.addObserver(self, forKeyPath: "contentOffset", options: [.New,], context: tableViewContext)
+        self.tableView.addObserver(self, forKeyPath: "contentOffset", options: [.New,], context: tableViewObserverContext)
     }
     
     private func setupTableView() {
@@ -111,6 +123,10 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UITa
     }
     
     // MARK: TableView Delegate
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
+    
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if scrollView == tableView {
             
@@ -118,7 +134,7 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UITa
     }
     
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        if tableViewContext == context {
+        if tableViewObserverContext == context {
             if let change = change
             {
                 let offset = change[NSKeyValueChangeNewKey]?.CGPointValue

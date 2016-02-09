@@ -63,8 +63,8 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="474" height="290"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="68g-pZ-GzB">
-                                                            <rect key="frame" x="207" y="130" width="61" height="30"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="68g-pZ-GzB">
+                                                            <rect key="frame" x="20" y="130" width="434" height="30"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -74,7 +74,8 @@
                                                 </view>
                                                 <constraints>
                                                     <constraint firstItem="68g-pZ-GzB" firstAttribute="centerY" secondItem="TG1-b4-bNn" secondAttribute="centerY" id="73x-LO-H0R"/>
-                                                    <constraint firstItem="68g-pZ-GzB" firstAttribute="centerX" secondItem="TG1-b4-bNn" secondAttribute="centerX" id="mkp-SI-Ygl"/>
+                                                    <constraint firstAttribute="trailing" secondItem="68g-pZ-GzB" secondAttribute="trailing" constant="20" id="qfe-1k-PQe"/>
+                                                    <constraint firstItem="68g-pZ-GzB" firstAttribute="leading" secondItem="TG1-b4-bNn" secondAttribute="leading" constant="20" id="rzD-je-62N"/>
                                                 </constraints>
                                                 <connections>
                                                     <outlet property="titleLabel" destination="68g-pZ-GzB" id="L6F-fn-5Rz"/>
@@ -92,6 +93,7 @@
                                                     <segment title="Filter 2"/>
                                                     <segment title="Filter 3"/>
                                                 </segments>
+                                                <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 <connections>
                                                     <action selector="segmentedControlChangedValue:" destination="BYZ-38-t0r" eventType="valueChanged" id="HUf-ud-DjD"/>
                                                 </connections>
