@@ -88,9 +88,13 @@
                                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="rMx-mh-DTi">
                                                 <rect key="frame" x="11" y="11" width="578" height="29"/>
                                                 <segments>
-                                                    <segment title="First"/>
-                                                    <segment title="Second"/>
+                                                    <segment title="Filter 1"/>
+                                                    <segment title="Filter 2"/>
+                                                    <segment title="Filter 3"/>
                                                 </segments>
+                                                <connections>
+                                                    <action selector="segmentedControlChangedValue:" destination="BYZ-38-t0r" eventType="valueChanged" id="HUf-ud-DjD"/>
+                                                </connections>
                                             </segmentedControl>
                                         </subviews>
                                         <color key="backgroundColor" red="0.79999045593368234" green="0.79999045593368234" blue="0.79999045593368234" alpha="1" colorSpace="calibratedRGB"/>

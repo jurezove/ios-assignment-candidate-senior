@@ -33,7 +33,11 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UITa
         }
     }
     
-    private let viewEdgeInsets = UIEdgeInsetsMake(20, 0, 0, 0)
+    private var _topLimitY: CGFloat {
+        get {
+            return stickyHeaderView.bounds.size.height + 20.0 // Status bar height
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,7 +53,7 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UITa
     }
     
     deinit {
-        self.removeObserver(self, forKeyPath: "contentOffset", context: tableViewContext)
+        tableView.removeObserver(self, forKeyPath: "contentOffset", context: tableViewContext)
     }
     
     override func viewDidLayoutSubviews() {
@@ -62,6 +66,7 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UITa
         tableView.contentInset = UIEdgeInsetsMake(_headerHeight, 0, 0, 0)
         tableView.contentOffset = CGPointMake(0,-_headerHeight)
         tableView.scrollIndicatorInsets = tableView.contentInset
+        tableView.alwaysBounceVertical = true
         headerHeightCollectionViewConstraint.constant = _headerHeight - headerSegmentedControl.bounds.size.height
         
         headerCollectionView.collectionViewLayout.invalidateLayout()
@@ -84,6 +89,20 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UITa
         tableView.delegate = self
     }
     
+    private func changeDataSourceWithType(sourceType: DataSourceType) {
+        _tableViewDataSource.dataSourceType = sourceType
+        
+        // Reset offset, so the whole content is visble when we change data source
+        if (tableView.contentOffset.y > -_topLimitY) {
+            tableView.contentOffset = CGPointMake(0,-_topLimitY)
+        }
+        
+        tableView.scrollIndicatorInsets = tableView.contentInset
+        
+        tableView.reloadData()
+    }
+    
+    
     // MARK: CollectionView Delegate
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         return headerCollectionView.bounds.size
@@ -104,11 +123,9 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UITa
                 
                 let offsetY = offset!.y
                 
-                let topOffsetLimit = stickyHeaderView.bounds.size.height + viewEdgeInsets.top
-                
                 // Top sticky header limit
-                if (offsetY >= -topOffsetLimit) {
-                    headerHeightViewConstraint.constant = topOffsetLimit
+                if (offsetY >= -_topLimitY) {
+                    headerHeightViewConstraint.constant = _topLimitY
                 }
                 else if (offsetY <= -_headerHeight) {
                     headerHeightViewConstraint.constant = _headerHeight
@@ -125,4 +142,15 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UITa
             super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
         }
     }
+    
+    // MARK: Actions
+    @IBAction func segmentedControlChangedValue(sender: UISegmentedControl) {
+        let type = DataSourceType(rawValue:sender.selectedSegmentIndex)
+        
+        if let type = type {
+            changeDataSourceWithType(type)
+        }
+    }
+    
+    
 }

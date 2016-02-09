@@ -8,8 +8,8 @@
 
 import UIKit
 
-enum DataSourceType {
-    case First
+enum DataSourceType: Int {
+    case First = 0
     case Second
     case Third
 }
