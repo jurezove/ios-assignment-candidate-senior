@@ -21,9 +21,7 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UITa
     @IBOutlet weak var headerHeightViewConstraint: NSLayoutConstraint!
     @IBOutlet weak var headerHeightCollectionViewConstraint: NSLayoutConstraint!
     
-    private let _headerViewDataSource = HeaderViewDataSource()
-    private let _tableViewDataSource = TableViewDataSource()
-    
+    // Design variables
     private var _headerHeight: CGFloat = 0.0 {
         didSet {
             if _headerHeight != oldValue {
@@ -38,6 +36,9 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UITa
             return stickyHeaderView.bounds.size.height + 20.0 // Status bar height
         }
     }
+    
+    private let _headerViewDataSource = HeaderViewDataSource()
+    private let _tableViewDataSource = TableViewDataSource()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,7 +64,8 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UITa
     }
     
     private func updateInitialViewDimensions() {
-        tableView.contentInset = UIEdgeInsetsMake(_headerHeight, 0, 0, 0)
+        // Make scroll view content smaller by adding content insets
+        tableView.contentInset = UIEdgeInsetsMake(_headerHeight, tableView.contentInset.left, tableView.contentInset.bottom, tableView.contentInset.right)
         tableView.contentOffset = CGPointMake(0,-_headerHeight)
         tableView.scrollIndicatorInsets = tableView.contentInset
         tableView.alwaysBounceVertical = true
@@ -81,7 +83,7 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UITa
             layout.minimumLineSpacing = 0.0
         }
         
-        self.tableView.addObserver(self, forKeyPath: "contentOffset", options: [.New, .Old], context: tableViewContext)
+        self.tableView.addObserver(self, forKeyPath: "contentOffset", options: [.New,], context: tableViewContext)
     }
     
     private func setupTableView() {
@@ -131,10 +133,8 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UITa
                     headerHeightViewConstraint.constant = _headerHeight
                 }
                 else {
-                    // Fix constraints to top and tableview insests for floating header
+                    // Fix constraints to top
                     headerHeightViewConstraint.constant = -offset!.y;
-                    tableView.contentInset = UIEdgeInsetsMake(-offset!.y, 0, 0, 0)
-                    tableView.scrollIndicatorInsets = tableView.contentInset
                 }
             }
         }
