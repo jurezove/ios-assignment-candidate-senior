@@ -127,12 +127,6 @@ class ViewController: UIViewController, UICollectionViewDelegateFlowLayout, UITa
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        if scrollView == tableView {
-            
-        }
-    }
-    
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         if tableViewObserverContext == context {
             if let change = change
